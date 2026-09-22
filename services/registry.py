@@ -1,11 +1,12 @@
 from services.intel import weather
-from services.hardware import system_pulse
+from services.hardware import system_pulse, diagnostics
 from services.flavor import greeting
 
 MODULE_REGISTRY = {
     "weather": weather.get_weather,
     "system": system_pulse.get_pulse,
-    "hello": greeting.get_greeting
+    "hello": greeting.get_greeting,
+    "diag": diagnostics.get_full_diagnostics
 }
 
 
