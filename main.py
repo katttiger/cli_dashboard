@@ -1,24 +1,33 @@
 import os
 import time
+from colorama import init, Fore, Style
 from services import greeting, weather, system_pulse
+
+init()
 
 
 def run_dashboard():
     try:
         while True:
             os.system('cls' if os.name == "nt" else 'clear')
-            print("--- Welcome to your LIVE CLI Dashboard ---")
-            print(f"Status: Monitoring... (Press Ctrl+C to exit)\n")
+            print(Fore.CYAN+Style.BRIGHT +
+                  "--- Welcome to your LIVE CLI Dashboard ---")
+            print(Fore.CYAN + "Status: " + Fore.GREEN +
+                  "ONLINE" + Fore.CYAN + " | Connection:" + Fore.GREEN + " Secure\n")
 
-            print(greeting.get_greeting())
-            print(weather.get_weather())
-            print(system_pulse.get_pulse())
+            print(Fore.WHITE + "Incoming Transmission: " +
+                  Fore.YELLOW + greeting.get_greeting())
+            print(Fore.WHITE+"Atmospheric data: " +
+                  Fore.MAGENTA + weather.get_weather())
+            print(Fore.WHITE + "Hardware pulse: " +
+                  Fore.GREEN + system_pulse.get_pulse())
 
-            print("\n-----------------------------------------")
+            print("\n" + Fore.CYAN + "-----------------------------------------")
+            print(Fore.WHITE + "Press Ctrl+C to terminate session")
 
             time.sleep(5)
     except KeyboardInterrupt:
-        print("\nDashboard shut down. Goodbye!")
+        print(Fore.RED + "\nSession terminated. Connection lost...")
 
 
 if __name__ == "__main__":
