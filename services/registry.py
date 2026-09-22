@@ -1,4 +1,4 @@
-from services.intel import weather
+from services.intel import weather, news_wire, knowledge_vault
 from services.hardware import system_pulse, diagnostics
 from services.flavor import encrypted_signal, greeting
 
@@ -8,6 +8,8 @@ MODULE_REGISTRY = {
     "hello": greeting.get_greeting,
     "diag": diagnostics.get_full_diagnostics,
     "signal": encrypted_signal.get_encrypted_signal,
+    "news": news_wire.get_headlines,
+    "lesson": knowledge_vault.get_daily_lesson
 }
 
 
