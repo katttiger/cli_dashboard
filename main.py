@@ -1,31 +1,47 @@
 import os
+import sys
 import time
 from colorama import init, Fore, Style
-from services import greeting, weather, system_pulse
-
+from services.registry import get_module_data
 init()
 
 
 def run_dashboard():
+    current_view = "main"
     try:
         while True:
             os.system('cls' if os.name == "nt" else 'clear')
+
             print(Fore.CYAN+Style.BRIGHT +
-                  "--- Welcome to your LIVE CLI Dashboard ---")
+                  "--- SYSTEM OVERRIDE: COMMAND CENTER ---")
             print(Fore.CYAN + "Status: " + Fore.GREEN +
                   "ONLINE" + Fore.CYAN + " | Connection:" + Fore.GREEN + " Secure\n")
 
-            print(Fore.WHITE + "Incoming Transmission: " +
-                  Fore.YELLOW + greeting.get_greeting())
-            print(Fore.WHITE+"Atmospheric data: " +
-                  Fore.MAGENTA + weather.get_weather())
-            print(Fore.WHITE + "Hardware pulse: " +
-                  Fore.GREEN + system_pulse.get_pulse())
+            if (current_view == "main"):
+
+                print(Fore.WHITE + "Incoming Transmission: " +
+                      Fore.YELLOW + get_module_data("hello"))
+                print(Fore.WHITE+"Atmospheric data: " +
+                      Fore.MAGENTA + get_module_data("weather"))
+                print(Fore.WHITE + "Hardware pulse: " +
+                      Fore.GREEN + get_module_data("system"))
+            else:
+                print(Fore.YELLOW +
+                      f"Fetching Data stream: {current_view.upper()}...")
+                print(Fore.WHITE + "\n" + get_module_data(current_view))
 
             print("\n" + Fore.CYAN + "-----------------------------------------")
-            print(Fore.WHITE + "Press Ctrl+C to terminate session")
+            user_input = input(Fore.CYAN + "CMD> " +
+                               Fore.WHITE).strip().lower()
 
-            time.sleep(5)
+            if (user_input == ""):
+                current_view = "main"
+            elif user_input == "/exit":
+                raise KeyboardInterrupt
+            elif user_input.startswith("/"):
+                current_view = user_input[1:]
+            else:
+                current_view = "main"
     except KeyboardInterrupt:
         print(Fore.RED + "\nSession terminated. Connection lost...")
 
