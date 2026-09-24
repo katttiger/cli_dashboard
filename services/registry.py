@@ -1,9 +1,11 @@
-from services.intel import weather, news_wire, knowledge_vault, crypto_suite, file_navigator, signal_intercept
+from services.intel import weather, news_wire, knowledge_vault, signal_intercept
 from services.hardware import system_pulse, diagnostics
 from services.flavor import encrypted_signal, greeting
+from utils import crypto_suite, file_navigator
 
 MODULE_REGISTRY = {
-    "weather": weather.get_weather,
+    "weather-local": weather.get_local_weather,
+    "weather": weather.get_weather_data,
     "system": system_pulse.get_pulse,
     "hello": greeting.get_greeting,
     "diag": diagnostics.system_manager_report,

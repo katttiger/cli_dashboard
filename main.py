@@ -22,7 +22,7 @@ def run_dashboard():
                 print(Fore.WHITE + "Incoming Transmission: " +
                       Fore.YELLOW + get_module_data("hello"))
                 print(Fore.WHITE+"Atmospheric data: " +
-                      Fore.MAGENTA + get_module_data("weather"))
+                      Fore.MAGENTA + get_module_data("weather-local"))
                 print(Fore.WHITE + "Hardware pulse: " +
                       Fore.GREEN + get_module_data("system"))
             else:
