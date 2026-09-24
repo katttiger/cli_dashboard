@@ -1,21 +1,41 @@
+import requests
 import random
+from colorama import Fore
 
 
 def get_daily_lesson():
-    vault = [
-        ("S-CLASS", "The Great Attractor",
-         "There is a gravitational anomaly in intergalactic space that is pulling our galaxy and others toward it. Its nature remains unknown."),
-        ("B-CLASS", "The Voynich Manuscript",
-         "A 15th-century book written in an unknown script that has defied all attempts at decryption for centuries."),
-        ("A-CLASS", "Quantum Entanglement",
-         "Particles can remain connected such that the state of one instantly influences the other, regardless of the distance separating them."),
-        ("C-CLASS", "The Library of Ashurbanipal",
-         "One of the first systemic archives of human knowledge, containing thousands of clay tablets from ancient Mesopotamia.")
+    classifications = [
+        (Fore.RED, "S-CLASS"),
+        (Fore.YELLOW, "A-CLASS"),
+        (Fore.CYAN, "B-CLASS"),
+        (Fore.WHITE, "C-CLASS"),
     ]
-    classification, title, fact = random.choice(vault)
-    return (
-        f"--- INTEL BRIEF: {classification} ---\n"
-        f"SUBJECT: {title}\n"
-        f"DATA: {fact}\n"
-        f"----------------------------"
-    )
+
+    headers = {
+        'User-Agent': 'MyCoolDashboard/1.0 (https://github.com/example/project)'
+    }
+
+    try:
+        url = "https://en.wikipedia.org/api/rest_v1/page/random/summary"
+        response = requests.get(url, headers=headers, timeout=10)
+
+        if response.status_code == 200:
+            data = response.json()
+            title = data.get("title", "Unknonw subject")
+            extract = data.get("extract", "Data corrupted or redacted.")
+
+            if len(extract) > 250:
+                extract = extract[:247] + "..."
+            color, label = random.choice(classifications)
+
+            return (
+                f"{color}--- [ INTEL BRIEF: {label} ] ---\n"
+                f"{Fore.WHITE}SUBJECT: {Fore.GREEN}{title}\n"
+                f"{Fore.WHITE}DATA: {Fore.WHITE}{extract}\n"
+                f"{color}----------------------------"
+            )
+        else:
+            return f"{Fore.RED}VAULT ERROR: Connection to archives timed out."
+
+    except Exception as e:
+        return f"{Fore.RED}CRITICAL FAILURE: Vault access denied. \nError: {e}"
