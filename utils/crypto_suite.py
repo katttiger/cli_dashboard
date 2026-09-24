@@ -49,7 +49,7 @@ def encrypt_decrypt():
                 text = input("Enter text: ")
                 key = input("Enter key: ")
                 mode = input("Encrypt or Decrypt? (e/d)")
-                result = vignere_cipher(text, key, decrypt=(mode == 'd'))
+                result = vigenere_cipher(text, key, decrypt=(mode == 'd'))
             else:
                 print("Invalid selection")
         except Exception as e:
