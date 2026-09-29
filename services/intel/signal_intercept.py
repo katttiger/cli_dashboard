@@ -1,6 +1,6 @@
 import requests
 import random
-from colorama import Fore, Style
+from colorama import Fore
 
 
 def intercept_signal():
